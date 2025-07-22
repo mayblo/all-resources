@@ -34,9 +34,11 @@ jobs:
             node -v
 
       - run:
-          name: Export PATH for Node
+          name: Ensure node is available in /usr/bin
           command: |
-            echo 'export PATH="/usr/local/bin:$PATH"' >> $BASH_ENV
+            NODE_PATH=$(which node)
+            echo "Node is at: $NODE_PATH"
+            sudo ln -sf "$NODE_PATH" /usr/bin/node
 
       - run:
           name: Run Cortex CLI Code Scan
