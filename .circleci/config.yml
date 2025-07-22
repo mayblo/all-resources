@@ -24,6 +24,12 @@ jobs:
       - run:
           name: Install patchelf
           command: sudo apt-get update && sudo apt-get install -y patchelf
+
+      - run:
+          name: Debug working directory
+          command: |
+            echo "Current dir: $(pwd)"
+            ls -la
       
       - run:
           name: Run Cortex CLI Code Scan
