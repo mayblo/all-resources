@@ -1,46 +1,42 @@
 version: 2.1
-executors:
-  linux-executor:
-    machine:
-      image: ubuntu-2004:current # Replace with a suitable image or executor
-      resource_class: medium
-    environment:
-      CORTEX_API_URL: https://api-viso-sl4lylhmzwoshaanqej9az.xdr-qa2-uat.us.paloaltonetworks.com
-      CORTEX_CLI_VERSION: 0.13.1
 
 jobs:
   cortex-code-scan:
-    executor: linux-executor
+    docker:
+      - image: cimg/base:stable
+    environment:
+      CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
     steps:
       - checkout
+
       - run:
-          name: Get Temporary Token and Pull Docker Image
+          name: Download cortexcli
           command: |
-            export TOKEN_RESPONSE=$(curl --location "${CORTEX_API_URL}/public_api/v1/unified-cli/image/token" \
-                                        --header "Authorization: ${CORTEX_API_KEY}" \
-                                        --header "x-xdr-auth-id: ${CORTEX_API_KEY_ID}" \
-                                        --header "Content-Type: application/json" \
-                                        --data "{}" -s)
-            export TEMP_TOKEN=$(echo $TOKEN_RESPONSE | jq -r '.token')
-            docker pull distributions-dev.traps.paloaltonetworks.com/cli-docker/${TEMP_TOKEN}/method:amd64-${CORTEX_CLI_VERSION}-dev
-            docker tag distributions-dev.traps.paloaltonetworks.com/cli-docker/${TEMP_TOKEN}/method:amd64-${CORTEX_CLI_VERSION}-dev cortexcli:${CORTEX_CLI_VERSION}
+            set -x
+            crtx_resp=$(curl "https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=amd64" \
+              -H "x-xdr-auth-id: $CORTEX_API_KEY_ID" \
+              -H "Authorization: ${CORTEX_API_KEY}")
+            crtx_url=$(echo $crtx_resp | jq -r ".signed_url")
+            curl -o cortexcli $crtx_url
+            chmod +x cortexcli
+            ./cortexcli --version
+
       - run:
-          name: Run Cortex CLI Container
-          #  Replace owner/repo with your actual repository information
+          name: Run Cortex CLI Code Scan
           command: |
-            docker run --rm -v /home/circleci/project:/home/code cortexcli:${CORTEX_CLI_VERSION} \
-                        --api-base-url ${CORTEX_API_URL} \
-                        --api-key ${CORTEX_API_KEY} \
-                        --api-key-id ${CORTEX_API_KEY_ID} \
-                        code scan \
-                        --directory /home/code \
-                        --repo-id <REPLACE WITH REPO_OWNER/REPO_NAME> \
-                        --branch ${CIRCLE_BRANCH} \
-                        --source CIRCLE_CI \
-                        --create-repo-if-missing
+            ./cortexcli \
+              --api-base-url "${CORTEX_API_URL}" \
+              --api-key "${CORTEX_API_KEY}" \
+              --api-key-id "${CORTEX_API_KEY_ID}" \
+              code scan \
+              --directory "$(pwd)" \
+              --repo-id "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}" \
+              --branch "${CIRCLE_BRANCH}" \
+              --source "CIRCLECI" \
+              --create-repo-if-missing
+
 workflows:
   version: 2
-  build:
+  cortex-scan:
     jobs:
-      - cortex-code-scan:
-          context: cortex-secrets
+      - cortex-code-scan
