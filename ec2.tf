@@ -43,8 +43,6 @@ EOF
   }
 
 resource "aws_ebs_volume" "web_host_storage" {
-  # checkov:skip=CKV_AWS_189: moshe
-  # checkov:skip=APPSEC_AWS_3: supress test
   # unencrypted volume
   availability_zone = "${var.region}a"
   #encrypted         = false  # Setting this causes the volume to be recreated on apply 
