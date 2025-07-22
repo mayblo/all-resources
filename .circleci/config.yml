@@ -36,7 +36,7 @@ jobs:
               --directory "$(pwd)" \
               --repo-id "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}" \
               --branch "${CIRCLE_BRANCH}" \
-              --source "CIRCLECI" \
+              --source "CIRCLE_CI" \
               --create-repo-if-missing
 
 workflows:
