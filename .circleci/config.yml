@@ -34,16 +34,9 @@ jobs:
             node -v
 
       - run:
-          name: Ensure node is available in /usr/bin
-          command: |
-            NODE_PATH=$(which node)
-            echo "Node is at: $NODE_PATH"
-            sudo ln -sf "$NODE_PATH" /usr/bin/node
-
-      - run:
           name: Run Cortex CLI Code Scan
           command: |
-            ./cortexcli \
+            env PATH="$PATH" ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
               --api-key "${CORTEX_API_KEY}" \
               --api-key-id "${CORTEX_API_KEY_ID}" \
