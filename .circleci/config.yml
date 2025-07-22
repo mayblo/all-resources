@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Run Cortex CLI Code Scan
           command: |
-            export PATH="/usr/bin:$PATH" \
+            export PATH="/usr/bin:$PATH"
             ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
               --api-key "${CORTEX_API_KEY}" \
