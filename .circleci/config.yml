@@ -6,6 +6,7 @@ jobs:
       - image: cimg/base:stable
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
+      MIN_LOG_LEVEL: DEBUG
     steps:
       - checkout
 
