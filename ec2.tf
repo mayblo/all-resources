@@ -1,7 +1,4 @@
 resource "aws_instance" "web_host" {
-# checkov:skip=APPSEC_AWS_135: momo
-# checkov:skip=APPSEC_AWS_135: moshe
-
   # ec2 have plain text secrets in user data
   ami           = "${var.ami}"
   instance_type = "t2.nano"
@@ -15,7 +12,6 @@ sudo apt-get update
 sudo apt-get install -y apache2
 sudo systemctl start apache2
 sudo systemctl enable apache2
-# checkov:skip=APPSEC_SECRET_2: mozes
 export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMAAAKEY
 export AWS_DEFAULT_REGION=us-west-2
 echo "<h1>Deployed via Terraform</h1>" | sudo tee /var/www/html/index.html
