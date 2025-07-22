@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: ubuntu:latest
+      - image: cimg/base
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
     steps:
@@ -21,6 +21,10 @@ jobs:
             chmod +x cortexcli
             ./cortexcli --version
 
+      - run:
+          name: Install patchelf
+          command: sudo apt-get update && sudo apt-get install -y patchelf
+      
       - run:
           name: Run Cortex CLI Code Scan
           command: |
