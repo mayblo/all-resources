@@ -44,6 +44,7 @@ jobs:
               --repo-id "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}" \
               --branch "${CIRCLE_BRANCH}" \
               --source "CIRCLE_CI" \
+              --upload-mode "no-upload" \
               --create-repo-if-missing
 
 workflows:
