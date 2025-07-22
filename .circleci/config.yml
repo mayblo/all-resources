@@ -46,12 +46,6 @@ jobs:
             version_string = result.stdout.strip()
 
             match_version = re.match(r'^v(\d+)\.\d+\.\d+', version_string)
-
-
-
-
-
-
           "
           
       # - run:
