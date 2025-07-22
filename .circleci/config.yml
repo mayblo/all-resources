@@ -45,6 +45,7 @@ jobs:
               --branch "${CIRCLE_BRANCH}" \
               --source "CIRCLE_CI" \
               --upload-mode "no-upload" \
+              --framework "sca" \
               --create-repo-if-missing
 
 workflows:
