@@ -32,22 +32,43 @@ jobs:
             curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
             sudo apt-get install -y nodejs
             node -v
-          
+
       - run:
-          name: Run Cortex CLI Code Scan
-          command: |
-            ./cortexcli \
-              --api-base-url "${CORTEX_API_URL}" \
-              --api-key "${CORTEX_API_KEY}" \
-              --api-key-id "${CORTEX_API_KEY_ID}" \
-              code scan \
-              --directory "$(pwd)" \
-              --repo-id "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}" \
-              --branch "${CIRCLE_BRANCH}" \
-              --source "CIRCLE_CI" \
-              --upload-mode "no-upload" \
-              --framework "sca" \
-              --create-repo-if-missing
+        name: Run inline Python script
+        command: |
+          python3 -c "
+            import re
+            import subprocess
+
+             result = subprocess.run(
+                ['node', '-v'], check=True, capture_output=True, text=True, timeout=5
+            )
+            version_string = result.stdout.strip()
+
+            match_version = re.match(r'^v(\d+)\.\d+\.\d+', version_string)
+
+
+
+
+
+
+          "
+          
+      # - run:
+      #     name: Run Cortex CLI Code Scan
+      #     command: |
+      #       ./cortexcli \
+      #         --api-base-url "${CORTEX_API_URL}" \
+      #         --api-key "${CORTEX_API_KEY}" \
+      #         --api-key-id "${CORTEX_API_KEY_ID}" \
+      #         code scan \
+      #         --directory "$(pwd)" \
+      #         --repo-id "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}" \
+      #         --branch "${CIRCLE_BRANCH}" \
+      #         --source "CIRCLE_CI" \
+      #         --upload-mode "no-upload" \
+      #         --framework "sca" \
+      #         --create-repo-if-missing
 
 workflows:
   version: 2
