@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: ubuntu:22.04
+      - image: ubuntu:latest
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
     steps:
