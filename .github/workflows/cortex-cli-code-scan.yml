@@ -36,7 +36,8 @@ jobs:
 
       - name: Run Cortex CLI Code Scan
         run: |
-          MIN_LOG_LEVEL=DEBUG ./cortexcli \
+          export MIN_LOG_LEVEL=DEBUG
+          ./cortexcli \
             --api-base-url "${CORTEX_API_URL}" \
             --api-key "${CORTEX_API_KEY}" \
             --api-key-id "${CORTEX_API_KEY_ID}" \
