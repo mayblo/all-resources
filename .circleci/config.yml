@@ -37,6 +37,9 @@ jobs:
           name: Run Cortex CLI Code Scan
           command: |
             node -v
+
+            sudo ln -s /usr/bin/nodejs /usr/bin/node
+            
             ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
               --api-key "${CORTEX_API_KEY}" \
