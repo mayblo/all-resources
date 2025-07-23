@@ -34,6 +34,10 @@ jobs:
             node -v
 
       - run:
+          name: Show APPSEC version file
+          command: cat .cortexcli/APPSEC/version.json
+
+      - run:
           name: Run Cortex CLI Code Scan
           command: |
             export FIXED_MODULE_VERSION_APPSEC=0.595.0
