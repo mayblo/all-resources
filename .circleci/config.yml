@@ -34,8 +34,8 @@ jobs:
             node -v
 
       - run:
-          name: Show APPSEC version file
-          command: cat .cortexcli/APPSEC/version.json
+          name: Show file list
+          command: ls -la
 
       - run:
           name: Run Cortex CLI Code Scan
