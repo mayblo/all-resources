@@ -33,8 +33,4 @@ pipeline {
     }
 
   }
-  environment {
-    CORTEX_API_KEY = 'N7lNYlsm057yl0eV0F6MJEYBWQL0m4FgeRZQvsr8ozWXkXuPEKzrJJNUIBbYM5Aj1ytuz83ZOGNarpdxVO8UlLvlbFmdXdWPzj9SIqoG3tHEjsQqRm40jhLso5FGkFDX'
-    CORTEX_API_KEY_ID = '6'
-  }
 }
