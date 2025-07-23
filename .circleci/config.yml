@@ -34,13 +34,8 @@ jobs:
             node -v
 
       - run:
-          name: Show file list
-          command: ls -la
-
-      - run:
           name: Run Cortex CLI Code Scan
           command: |
-            export FIXED_MODULE_VERSION_APPSEC=0.595.0
             ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
               --api-key "${CORTEX_API_KEY}" \
@@ -53,6 +48,12 @@ jobs:
               --upload-mode "no-upload" \
               --framework "sca" \
               --create-repo-if-missing
+
+      - run:
+          name: Print Cortex CLI Log
+          command: |
+            echo "Looking for Cortex CLI logs..."
+            cat /tmp/cortexcli-*.log || echo "No log file found"
 
 workflows:
   cortex-scan-workflow:
