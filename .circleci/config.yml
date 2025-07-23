@@ -22,16 +22,9 @@ jobs:
             chmod +x cortexcli
             ./cortexcli --version
 
-      - run:
-          name: Install patchelf
-          command: sudo apt-get update && sudo apt-get install -y patchelf
-
       # - run:
-      #     name: Install Node.js 22
-      #     command: |
-      #       curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-      #       sudo apt-get install -y nodejs
-      #       node -v
+      #     name: Install patchelf
+      #     command: sudo apt-get update && sudo apt-get install -y patchelf
 
       - run:
           name: Run Cortex CLI Code Scan
@@ -50,12 +43,6 @@ jobs:
               --upload-mode "no-upload" \
               --framework "sca" \
               --create-repo-if-missing
-
-      - run:
-          name: Print Cortex CLI Log
-          command: |
-            echo "Looking for Cortex CLI logs..."
-            cat /tmp/cortexcli-*.log || echo "No log file found"
 
 workflows:
   cortex-scan-workflow:
