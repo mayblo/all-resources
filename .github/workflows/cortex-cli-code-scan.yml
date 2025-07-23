@@ -15,14 +15,16 @@ env:
 jobs:
   cortex-code-scan:
     runs-on: ubuntu-latest
+    container:
+      image: node:22
     steps:
+      - name: Install dependencies (jq, curl)
+        run: |
+          apt-get update
+          apt-get install -y jq curl
+
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
 
       - name: Show Node Version (Debug)
         run: node -v
@@ -30,7 +32,7 @@ jobs:
       - name: Download cortexcli
         run: |
           set -x
-          crtx_resp=$(curl "https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=amd64" \
+          crtx_resp=$(curl "${CORTEX_API_URL}/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=amd64" \
             -H "x-xdr-auth-id: ${CORTEX_API_KEY_ID}" \
             -H "Authorization: ${CORTEX_API_KEY}")
           crtx_url=$(echo $crtx_resp | jq -r ".signed_url")
