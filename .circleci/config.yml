@@ -36,7 +36,8 @@ jobs:
       - run:
           name: Run Cortex CLI Code Scan
           command: |
-            FIXED_MODULE_VERSION_APPSEC=0.595.0 ./cortexcli \
+            export FIXED_MODULE_VERSION_APPSEC=0.595.0
+            ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
               --api-key "${CORTEX_API_KEY}" \
               --api-key-id "${CORTEX_API_KEY_ID}" \
