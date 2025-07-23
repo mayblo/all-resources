@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:stable
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
       MIN_LOG_LEVEL: DEBUG
@@ -26,19 +26,17 @@ jobs:
           name: Install patchelf
           command: sudo apt-get update && sudo apt-get install -y patchelf
 
-      - run:
-          name: Install Node.js 22
-          command: |
-            curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-            node -v
+      # - run:
+      #     name: Install Node.js 22
+      #     command: |
+      #       curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+      #       sudo apt-get install -y nodejs
+      #       node -v
 
       - run:
           name: Run Cortex CLI Code Scan
           command: |
             node -v
-
-            sudo ln -s /usr/bin/nodejs /usr/bin/node
             
             ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
