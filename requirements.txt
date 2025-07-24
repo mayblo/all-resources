@@ -1,5 +1,4 @@
-pandas
+tensorflow>=2.17.0
 scipy
+pandas
 matplotlib
-tensorflow==2.8.4
-validate_email
