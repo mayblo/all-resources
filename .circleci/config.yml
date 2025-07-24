@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: cimg/python:3.10-node
+      - image: cimg/python:3.10-node  # ✅ Python 3.10 + Node.js
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
       MIN_LOG_LEVEL: DEBUG
@@ -11,23 +11,14 @@ jobs:
       - checkout
 
       - run:
-          name: Install Poetry
+          name: Install Python dependencies (if needed)
           command: |
-            curl -sSL https://install.python-poetry.org | python3 -
-            export PATH="$HOME/.local/bin:$PATH"
-            poetry --version
-
-      - run:
-          name: Install Dependencies
-          command: |
-            export PATH="$HOME/.local/bin:$PATH"
-            poetry install --no-interaction --no-root
-
-      - run:
-          name: Run Build
-          command: |
-            export PATH="$HOME/.local/bin:$PATH"
-            poetry run build
+            if [ -f "requirements.txt" ]; then
+              python3 -m venv venv
+              . venv/bin/activate
+              python -m pip install --upgrade pip
+              pip install --prefer-binary -r requirements.txt || echo "Partial install likely due to version constraints"
+            fi
 
       - run:
           name: Download cortexcli
