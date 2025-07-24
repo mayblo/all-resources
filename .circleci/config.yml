@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: cimg/python:3.11
+      - image: python:3.11-bookworm
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
       MIN_LOG_LEVEL: DEBUG
