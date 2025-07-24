@@ -1,4 +1,4 @@
-name: Cortex CLI Code Scan (Maven + Node.js 22)
+name: Cortex CLI Code Scan 
 
 on:
   push:
