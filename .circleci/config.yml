@@ -24,6 +24,13 @@ jobs:
             pip3 --version
 
       - run:
+          name: Symlink python and pip
+          command: |
+            sudo ln -s /usr/bin/python3 /usr/local/bin/python || true
+            sudo ln -s /usr/bin/pip3 /usr/local/bin/pip || true
+
+
+      - run:
           name: Download cortexcli
           command: |
             set -x
