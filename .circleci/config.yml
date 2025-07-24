@@ -17,11 +17,10 @@ jobs:
             sudo apt install -y golang-go
             go version
       
-       - run:
-      name: Prepare Go modules
-      command: |
-        go mod tidy
-        go mod download
+      - run:
+          name: Pre-download Go modules
+          command: |
+            go mod download
 
 
       - run:
