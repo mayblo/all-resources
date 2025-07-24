@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Verify Node.js Version
+        run: node -v
+
       - name: Download cortexcli
         run: |
           set -x
