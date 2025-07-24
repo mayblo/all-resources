@@ -11,6 +11,12 @@ jobs:
       - checkout
 
       - run:
+          name: Install jq (if needed)
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y jq
+
+      - run:
           name: Download cortexcli
           command: |
             set -x
@@ -25,8 +31,8 @@ jobs:
       - run:
           name: Run Cortex CLI Code Scan
           command: |
-            node -v
-            
+            python --version
+
             ./cortexcli \
               --api-base-url "${CORTEX_API_URL}" \
               --api-key "${CORTEX_API_KEY}" \
