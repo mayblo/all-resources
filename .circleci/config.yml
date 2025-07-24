@@ -16,13 +16,12 @@ jobs:
             sudo apt update
             sudo apt install -y golang-go
             go version
-      
-       - run:
-      name: Prepare Go modules
-      command: |
-        go mod tidy
-        go mod download
 
+      - run:
+          name: Prepare Go modules
+          command: |
+            go mod tidy
+            go mod download
 
       - run:
           name: Download cortexcli
