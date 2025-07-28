@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: node:22-bullseye
+      - image: ghcr.io/paloaltonetworks/jenkins-node22-jq:latest
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
     steps:
