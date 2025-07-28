@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   cortex-code-scan:
     docker:
-      - image: arm64v8/node:22
+      - image: node:22-bullseye
     environment:
       CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com/
     steps:
