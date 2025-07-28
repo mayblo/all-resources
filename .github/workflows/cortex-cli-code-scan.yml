@@ -1,4 +1,4 @@
-name: Cortex CLI Code Scan 
+name: Cortex CLI Code Scan
 
 on:
   push:
@@ -7,43 +7,34 @@ on:
   workflow_dispatch:
 
 env:
-  CORTEX_API_KEY: ${{ secrets.CORTEX_API_KEY }}
-  CORTEX_API_KEY_ID: ${{ secrets.CORTEX_API_KEY_ID }}
+  CORTEX_API_KEY: ${{secrets.CORTEX_API_KEY}}
+  CORTEX_API_KEY_ID: ${{secrets.CORTEX_API_KEY_ID}}
   CORTEX_API_URL: https://api-viso-8vocygkchsephm7mczadnc.xdr-qa2-uat.us.paloaltonetworks.com
-  MIN_LOG_LEVEL: DEBUG
-
+  
 jobs:
   cortex-code-scan:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Set up Node.js 22
+      
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Set up Java 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Verify Versions
-        run: |
-          node -v
-          java -version
-          mvn -v
+      - name: Verify Node.js Version
+        run: node -v
 
       - name: Download cortexcli
         run: |
           set -x
-          crtx_resp=$(curl "$CORTEX_API_URL/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=amd64" \
-            -H "x-xdr-auth-id: $CORTEX_API_KEY_ID" \
+          crtx_resp=$(curl "${CORTEX_API_URL}/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=amd64" \
+            -H "x-xdr-auth-id: ${CORTEX_API_KEY_ID}" \
             -H "Authorization: ${CORTEX_API_KEY}")
-          crtx_url=$(echo "$crtx_resp" | jq -r ".signed_url")
-          curl -o cortexcli "$crtx_url"
+          crtx_url=$(echo $crtx_resp | jq -r ".signed_url")
+          curl -o cortexcli $crtx_url
           chmod +x cortexcli
           ./cortexcli --version
 
@@ -54,10 +45,9 @@ jobs:
             --api-key "${CORTEX_API_KEY}" \
             --api-key-id "${CORTEX_API_KEY_ID}" \
             code scan \
-            --directory "${{ github.workspace }}" \
-            --repo-id "${{ github.repository }}" \
-            --branch "${{ github.ref_name }}" \
+            --directory "${{github.workspace}}" \
+            --repo-id "${{github.repository}}" \
+            --branch "${{github.ref_name}}" \
             --source "GITHUB_ACTIONS" \
-            --upload-mode "no-upload" \
-            --framework "sca" \
+            --upload-mode no-upload
             --create-repo-if-missing
