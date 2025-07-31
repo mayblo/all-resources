@@ -12,7 +12,7 @@ jobs:
           name: Download cortexcli
           command: |
             set -x
-            crtx_resp=$(curl "${CORTEX_API_URL}/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=undefined" \
+            crtx_resp=$(curl "${CORTEX_API_URL}/public_api/v1/unified-cli/releases/download-link?os=linux&architecture=amd64" \
               -H "x-xdr-auth-id: ${CORTEX_API_KEY_ID}" \
               -H "Authorization: ${CORTEX_API_KEY}")
             crtx_url=$(echo $crtx_resp | jq -r ".signed_url")
@@ -32,6 +32,7 @@ jobs:
               --repo-id "${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}" \
               --branch "${CIRCLE_BRANCH}" \
               --source "CIRCLE_CI" \
+              --upload-mode no-upload
               --create-repo-if-missing
 workflows:
   cortex-scan-workflow:
